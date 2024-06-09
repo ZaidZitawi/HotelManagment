@@ -1,10 +1,13 @@
 package com.example.HotelManagment.DTO;
 
+import lombok.Data;
+
 import java.util.Date;
 
 public class BookingDTO {
     private int bookingId;
     private int guestId;
+    private String guestName;
     private int roomId;
     private Date checkInDate;
     private Date checkOutDate;
@@ -16,9 +19,10 @@ public class BookingDTO {
     // Constructors, getters, and setters
     public BookingDTO() {}
 
-    public BookingDTO(int bookingId, int guestId, int roomId, Date checkInDate, Date checkOutDate, Integer numberOfAdults, Integer numberOfChildren, Double totalPrice, String paymentStatus) {
+    public BookingDTO(int bookingId, int guestId,String guestName, int roomId, Date checkInDate, Date checkOutDate, Integer numberOfAdults, Integer numberOfChildren, Double totalPrice, String paymentStatus) {
         this.bookingId = bookingId;
         this.guestId = guestId;
+        this.guestName=guestName;
         this.roomId = roomId;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
@@ -53,7 +57,7 @@ public class BookingDTO {
     }
 
     public Date getCheckInDate() {
-        return checkInDate;
+        return (Date) checkInDate;
     }
 
     public void setCheckInDate(Date checkInDate) {
@@ -61,7 +65,7 @@ public class BookingDTO {
     }
 
     public Date getCheckOutDate() {
-        return checkOutDate;
+        return (Date) checkOutDate;
     }
 
     public void setCheckOutDate(Date checkOutDate) {
@@ -98,5 +102,13 @@ public class BookingDTO {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
     }
 }

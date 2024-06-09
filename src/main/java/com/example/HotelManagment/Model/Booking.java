@@ -13,6 +13,8 @@ public class Booking {
 
     @Column(nullable = false)
     private int guestId;
+    @Column(nullable = false)
+    private String guestName;
 
     @Column(nullable = false)
     private int roomId;
@@ -111,5 +113,12 @@ public class Booking {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+    public String getGuestName() {
+        return guestName;
+    }
+
+    public void setGuestName(String guestName) {
+        this.guestName = guestName;
     }
 }
