@@ -1,4 +1,7 @@
 package com.example.HotelManagment.Repo;
 
-public class BookingRepository {
-}
+import com.example.HotelManagment.Model.Booking;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface BookingRepository extends JpaRepository<Booking, Long> {}
+
