@@ -1,13 +1,11 @@
 package com.example.HotelManagment.Controller;
 
-import com.example.HotelManagment.Model.Guest;
+
+import com.example.HotelManagment.DTO.GuestDTO;
 import com.example.HotelManagment.Services.GuestService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/guests")
@@ -16,40 +14,38 @@ public class GuestController {
     @Autowired
     private GuestService guestService;
 
-    @GetMapping
-    public List<Guest> getAllGuests() {
-        return guestService.findAllGuests();
+    // POST endpoint for guest registration
+    @PostMapping("/register")
+    public ResponseEntity<?> registerGuest(@RequestBody GuestDTO guestDTO) {
+        GuestDTO savedGuest = guestService.registerGuest(guestDTO);
+        return ResponseEntity.ok(savedGuest);
     }
 
+    // POST endpoint for guest login
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
+        String token = guestService.login(email, password);
+        return ResponseEntity.ok(token);
+    }
+
+    // GET endpoint for viewing guest profile
     @GetMapping("/{id}")
-    public ResponseEntity<Guest> getGuestById(@PathVariable int id) {
-        Guest guest = guestService.findGuestById(id);
-        if (guest != null) {
-            return new ResponseEntity<>(guest, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> getGuestProfile(@PathVariable int id) {
+        GuestDTO guestProfile = guestService.getGuestById(id);
+        return ResponseEntity.ok(guestProfile);
     }
 
-    @PostMapping
-    public ResponseEntity<Guest> createGuest(@RequestBody Guest guest) {
-        Guest savedGuest = guestService.saveGuest(guest);
-        return new ResponseEntity<>(savedGuest, HttpStatus.CREATED);
+    // PUT endpoint for updating guest profile
+    @PutMapping("/update")
+    public ResponseEntity<?> updateGuestProfile(@RequestBody GuestDTO guestDTO) {
+        GuestDTO updatedGuest = guestService.updateGuest(guestDTO);
+        return ResponseEntity.ok(updatedGuest);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Guest> updateGuest(@PathVariable int id, @RequestBody Guest guest) {
-        Guest updatedGuest = guestService.updateGuest(id, guest);
-        if (updatedGuest != null) {
-            return new ResponseEntity<>(updatedGuest, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGuest(@PathVariable int id) {
-        guestService.deleteGuest(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    // POST endpoint for changing password
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestParam int id, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        boolean isChanged = guestService.changePassword(id, oldPassword, newPassword);
+        return ResponseEntity.ok(isChanged ? "Password updated successfully" : "Password update failed");
     }
 }

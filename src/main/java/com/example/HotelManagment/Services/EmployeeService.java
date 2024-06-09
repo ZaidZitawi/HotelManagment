@@ -1,13 +1,12 @@
 package com.example.HotelManagment.Services;
 
+import com.example.HotelManagment.DTO.EmployeeDTO;
 import com.example.HotelManagment.Model.Employee;
 import com.example.HotelManagment.Repo.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class EmployeeService {
@@ -15,34 +14,57 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> findAllEmployees() {
-        return employeeRepository.findAll();
+    private EmployeeDTO convertToDTO(Employee employee) {
+        return new EmployeeDTO(
+                employee.getEmployeeId(),
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getRole(),
+                employee.getEmail(),
+                employee.getDepartment()
+        );
     }
 
-    public Optional<Employee> findEmployeeById(int id) {
-        return employeeRepository.findById(id);
+    private Employee convertToEntity(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setEmployeeId(employeeDTO.getEmployeeId());
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setRole(employeeDTO.getRole());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setDepartment(employeeDTO.getDepartment());
+        return employee;
     }
 
-    public Employee saveEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    public EmployeeDTO saveEmployee(EmployeeDTO employeeDTO) {
+        Employee employee = convertToEntity(employeeDTO);
+        employee = employeeRepository.save(employee);
+        return convertToDTO(employee);
     }
 
-    public Employee updateEmployee(int id, Employee newEmployee) {
+    public Optional<EmployeeDTO> findEmployeeById(int id) {
+        return employeeRepository.findById(id).map(this::convertToDTO);
+    }
+
+    public Optional<EmployeeDTO> updateEmployee(int id, EmployeeDTO employeeDTO) {
         return employeeRepository.findById(id)
                 .map(employee -> {
-                    employee.setFirstName(newEmployee.getFirstName());
-                    employee.setLastName(newEmployee.getLastName());
-                    employee.setRole(newEmployee.getRole());
-                    employee.setEmail(newEmployee.getEmail());
-                    employee.setDepartment(newEmployee.getDepartment());
-                    return employeeRepository.save(employee);
-                }).orElseGet(() -> {
-                    newEmployee.setEmployeeId(id);
-                    return employeeRepository.save(newEmployee);
+                    employee.setFirstName(employeeDTO.getFirstName());
+                    employee.setLastName(employeeDTO.getLastName());
+                    employee.setRole(employeeDTO.getRole());
+                    employee.setEmail(employeeDTO.getEmail());
+                    employee.setDepartment(employeeDTO.getDepartment());
+                    employee = employeeRepository.save(employee);
+                    return convertToDTO(employee);
                 });
     }
 
-    public void deleteEmployee(int id) {
-        employeeRepository.deleteById(id);
+    public boolean deleteEmployee(int id) {
+        try {
+            employeeRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
