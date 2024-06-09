@@ -13,20 +13,20 @@ public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roomId;
+    private int roomId;
 
     private String roomNumber;
     private String roomType;
     private int floorNumber;
     private String status;
-    private BigDecimal price;
+    private double price;
 
     // Default constructor
     public Room() {
     }
 
     // Parameterized constructor
-    public Room(String roomNumber, String roomType, int floorNumber, String status, BigDecimal price) {
+    public Room(String roomNumber, String roomType, int floorNumber, String status, double price) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.floorNumber = floorNumber;
@@ -35,11 +35,11 @@ public class Room {
     }
 
     // Getters and Setters
-    public Long getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Long roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
@@ -75,11 +75,11 @@ public class Room {
         this.status = status;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 }

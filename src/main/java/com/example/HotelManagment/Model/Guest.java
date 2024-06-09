@@ -12,7 +12,7 @@ public class Guest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long guestId;
+    private int guestId;
 
     private String firstName;
     private String lastName;
@@ -32,11 +32,11 @@ public class Guest {
     }
 
     // Getters and Setters
-    public Long getGuestId() {
+    public int getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(Long guestId) {
+    public void setGuestId(int guestId) {
         this.guestId = guestId;
     }
 

@@ -9,13 +9,13 @@ import java.util.Date;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookingId;
+    private int bookingId;
 
     @Column(nullable = false)
-    private Long guestId;
+    private int guestId;
 
     @Column(nullable = false)
-    private Long roomId;
+    private int roomId;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
@@ -41,27 +41,27 @@ public class Booking {
     public Booking() {}
 
     // Getters and setters
-    public Long getBookingId() {
+    public int getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(Long bookingId) {
+    public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
 
-    public Long getGuestId() {
+    public int getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(Long guestId) {
+    public void setGuestId(int guestId) {
         this.guestId = guestId;
     }
 
-    public Long getRoomId() {
+    public int getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Long roomId) {
+    public void setRoomId(int roomId) {
         this.roomId = roomId;
     }
 
