@@ -1,4 +1,4 @@
 package com.example.HotelManagment.Controller;
 
-public class Booking {
+public class RoomController {
 }
