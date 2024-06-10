@@ -49,4 +49,6 @@ public class RoomController {
         List<RoomDTO> availableRooms = roomService.checkAvailability();
         return ResponseEntity.ok(availableRooms);
     }
+
+
 }

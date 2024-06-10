@@ -16,6 +16,8 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+
+    //زيادة عشان الناس الغانمة
     @GetMapping
     public ResponseEntity<List<BookingDTO>> getAllBookings() {
         List<BookingDTO> bookings = bookingService.findAllBookings();
