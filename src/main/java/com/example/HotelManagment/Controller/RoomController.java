@@ -1,14 +1,12 @@
 package com.example.HotelManagment.Controller;
 
-import com.example.HotelManagment.Model.Room;
+import com.example.HotelManagment.DTO.RoomDTO;
 import com.example.HotelManagment.Services.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -17,33 +15,38 @@ public class RoomController {
     @Autowired
     private RoomService roomService;
 
-    @GetMapping
-    public List<Room> getAllRooms() {
-        return roomService.findAllRooms();
+    @PostMapping("/")
+    public ResponseEntity<RoomDTO> addRoom(@RequestBody RoomDTO roomDTO) {
+        RoomDTO savedRoom = roomService.saveRoom(roomDTO);
+        return ResponseEntity.ok(savedRoom);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable int id) {
-        Optional<Room> room = roomService.findRoomById(id);
-        return room.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @PostMapping
-    public ResponseEntity<Room> createRoom(@RequestBody Room room) {
-        Room savedRoom = roomService.saveRoom(room);
-        return new ResponseEntity<>(savedRoom, HttpStatus.CREATED);
+    public ResponseEntity<RoomDTO> getRoomDetails(@PathVariable int id) {
+        return roomService.getRoomById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@PathVariable int id, @RequestBody Room room) {
-        Room updatedRoom = roomService.updateRoom(id, room);
-        return new ResponseEntity<>(updatedRoom, HttpStatus.OK);
+    public ResponseEntity<RoomDTO> updateRoom(@PathVariable int id, @RequestBody RoomDTO roomDTO) {
+        try {
+            RoomDTO updatedRoom = roomService.updateRoom(id, roomDTO);
+            return ResponseEntity.ok(updatedRoom);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRoom(@PathVariable int id) {
         roomService.deleteRoom(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/availability")
+    public ResponseEntity<List<RoomDTO>> checkAvailability() {
+        List<RoomDTO> availableRooms = roomService.checkAvailability();
+        return ResponseEntity.ok(availableRooms);
     }
 }

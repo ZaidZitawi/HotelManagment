@@ -1,36 +1,19 @@
-package com.example.HotelManagment.Model;
+package com.example.HotelManagment.DTO;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-import java.util.List;
-
-@Entity
-@Table(name = "guests")
-public class Guest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class GuestDTO {
     private int guestId;
-
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String phoneNumber;
-    private String password;
-
-    @ElementCollection(fetch = FetchType.EAGER) // Use EAGER or LAZY depending on your use case
-    private List<String> roles; // List of roles as strings
+    private String password; // Added to manage password data
 
     // Constructors, getters, and setters
-    public Guest() {}
+    public GuestDTO() {}
 
-    public Guest(String firstName, String lastName, String emailAddress, String phoneNumber, String password) {
+    public GuestDTO(int guestId, String firstName, String lastName, String emailAddress, String phoneNumber, String password) {
+        this.guestId = guestId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.emailAddress = emailAddress;
@@ -38,7 +21,6 @@ public class Guest {
         this.password = password;
     }
 
-    // Getters and setters
     public int getGuestId() {
         return guestId;
     }
@@ -85,13 +67,5 @@ public class Guest {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<String> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 }
