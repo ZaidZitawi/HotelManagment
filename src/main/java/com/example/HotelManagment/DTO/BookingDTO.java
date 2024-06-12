@@ -1,19 +1,28 @@
 package com.example.HotelManagment.DTO;
 
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.Date;
 
 public class BookingDTO {
+    @Getter
     private int bookingId;
+    @Getter
     private int guestId;
+    @Getter
     private String guestName;
+    @Getter
     private int roomId;
     private Date checkInDate;
     private Date checkOutDate;
+    @Getter
     private Integer numberOfAdults;
+    @Getter
     private Integer numberOfChildren;
+    @Getter
     private Double totalPrice;
+    @Getter
     private String paymentStatus;
 
     // Constructors, getters, and setters
@@ -32,24 +41,12 @@ public class BookingDTO {
         this.paymentStatus = paymentStatus;
     }
 
-    public int getBookingId() {
-        return bookingId;
-    }
-
     public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
 
-    public int getGuestId() {
-        return guestId;
-    }
-
     public void setGuestId(int guestId) {
         this.guestId = guestId;
-    }
-
-    public int getRoomId() {
-        return roomId;
     }
 
     public void setRoomId(int roomId) {
@@ -72,40 +69,20 @@ public class BookingDTO {
         this.checkOutDate = checkOutDate;
     }
 
-    public Integer getNumberOfAdults() {
-        return numberOfAdults;
-    }
-
     public void setNumberOfAdults(Integer numberOfAdults) {
         this.numberOfAdults = numberOfAdults;
-    }
-
-    public Integer getNumberOfChildren() {
-        return numberOfChildren;
     }
 
     public void setNumberOfChildren(Integer numberOfChildren) {
         this.numberOfChildren = numberOfChildren;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
-    }
-
-    public String getGuestName() {
-        return guestName;
     }
 
     public void setGuestName(String guestName) {

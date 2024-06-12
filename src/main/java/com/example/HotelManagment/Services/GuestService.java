@@ -4,28 +4,24 @@ package com.example.HotelManagment.Services;
 import com.example.HotelManagment.DTO.GuestDTO;
 import com.example.HotelManagment.Model.Guest;
 import com.example.HotelManagment.Repo.GuestRepository;
-import com.example.HotelManagment.Security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 @Service
 public class GuestService {
 
     @Autowired
     private GuestRepository guestRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public GuestDTO registerGuest(GuestDTO guestDTO) {
         Guest guest = new Guest();
         updateGuestEntityFromDTO(guest, guestDTO);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         guest.setPassword(passwordEncoder.encode(guestDTO.getPassword()));
         guest = guestRepository.save(guest);
         return convertToDTO(guest);
@@ -36,7 +32,7 @@ public class GuestService {
         if (guestOptional.isPresent()) {
             Guest guest = guestOptional.get();
             if (passwordEncoder.matches(password, guest.getPassword())) {
-                return jwtTokenProvider.createToken(email, guest.getRoles());
+                return "Logged in successfully";
             } else {
                 throw new IllegalArgumentException("Invalid password");
             }

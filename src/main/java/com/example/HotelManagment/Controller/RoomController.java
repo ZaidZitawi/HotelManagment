@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/rooms")
@@ -22,26 +23,33 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<RoomDTO> getRoomDetails(@PathVariable int id) {
-        return roomService.getRoomById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> getRoomDetails(@PathVariable int id) {
+        Optional<RoomDTO> room = roomService.getRoomById(id);
+        if (room.isPresent()) {
+            return ResponseEntity.ok(room.get());
+        } else {
+            return ResponseEntity.ok("No room found with ID " + id);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RoomDTO> updateRoom(@PathVariable int id, @RequestBody RoomDTO roomDTO) {
+    public ResponseEntity<?> updateRoom(@PathVariable int id, @RequestBody RoomDTO roomDTO) {
         try {
             RoomDTO updatedRoom = roomService.updateRoom(id, roomDTO);
             return ResponseEntity.ok(updatedRoom);
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("No room found with ID " + id);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable int id) {
-        roomService.deleteRoom(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteRoom(@PathVariable int id) {
+        try {
+            roomService.deleteRoom(id);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.ok("No room found with ID " + id);
+        }
     }
 
     @GetMapping("/availability")
@@ -49,6 +57,4 @@ public class RoomController {
         List<RoomDTO> availableRooms = roomService.checkAvailability();
         return ResponseEntity.ok(availableRooms);
     }
-
-
 }
