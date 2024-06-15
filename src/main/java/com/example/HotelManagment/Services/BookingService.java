@@ -2,7 +2,11 @@ package com.example.HotelManagment.Services;
 
 import com.example.HotelManagment.DTO.BookingDTO;
 import com.example.HotelManagment.Model.Booking;
+import com.example.HotelManagment.Model.Guest;
+import com.example.HotelManagment.Model.Room;
 import com.example.HotelManagment.Repo.BookingRepository;
+import com.example.HotelManagment.Repo.GuestRepository;
+import com.example.HotelManagment.Repo.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,12 @@ public class BookingService {
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private GuestRepository guestRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     public List<BookingDTO> findAllBookings() {
         return bookingRepository.findAll().stream()
@@ -34,15 +44,18 @@ public class BookingService {
     public BookingDTO updateBooking(int id, BookingDTO bookingDTO) {
         return bookingRepository.findById(id)
                 .map(booking -> {
-                    booking.setGuestId(bookingDTO.getGuestId());
-                    booking.setGuestName(bookingDTO.getGuestName());
-                    booking.setRoomId(bookingDTO.getRoomId());
+                    Guest guest = guestRepository.findById(bookingDTO.getGuestId()).orElseThrow(() -> new RuntimeException("Guest not found"));
+                    Room room = roomRepository.findById(bookingDTO.getRoomId()).orElseThrow(() -> new RuntimeException("Room not found"));
+
+                    booking.setGuest(guest);
+                    booking.setRoom(room);
                     booking.setCheckInDate(bookingDTO.getCheckInDate());
                     booking.setCheckOutDate(bookingDTO.getCheckOutDate());
                     booking.setNumberOfAdults(bookingDTO.getNumberOfAdults());
                     booking.setNumberOfChildren(bookingDTO.getNumberOfChildren());
                     booking.setTotalPrice(bookingDTO.getTotalPrice());
                     booking.setPaymentStatus(bookingDTO.getPaymentStatus());
+
                     return convertToDTO(bookingRepository.save(booking));
                 }).orElseGet(() -> {
                     Booking newBooking = convertToEntity(bookingDTO);
@@ -68,9 +81,9 @@ public class BookingService {
     private BookingDTO convertToDTO(Booking booking) {
         return new BookingDTO(
                 booking.getBookingId(),
-                booking.getGuestId(),
-                booking.getGuestName(),
-                booking.getRoomId(),
+                booking.getGuest().getGuestId(),
+                booking.getGuest().getFirstName() + " " + booking.getGuest().getLastName(),
+                booking.getRoom().getRoomId(),
                 booking.getCheckInDate(),
                 booking.getCheckOutDate(),
                 booking.getNumberOfAdults(),
@@ -81,11 +94,13 @@ public class BookingService {
     }
 
     private Booking convertToEntity(BookingDTO bookingDTO) {
+        Guest guest = guestRepository.findById(bookingDTO.getGuestId()).orElseThrow(() -> new RuntimeException("Guest not found"));
+        Room room = roomRepository.findById(bookingDTO.getRoomId()).orElseThrow(() -> new RuntimeException("Room not found"));
+
         Booking booking = new Booking();
         booking.setBookingId(bookingDTO.getBookingId());
-        booking.setGuestId(bookingDTO.getGuestId());
-        booking.setGuestName(bookingDTO.getGuestName());
-        booking.setRoomId(bookingDTO.getRoomId());
+        booking.setGuest(guest);
+        booking.setRoom(room);
         booking.setCheckInDate(bookingDTO.getCheckInDate());
         booking.setCheckOutDate(bookingDTO.getCheckOutDate());
         booking.setNumberOfAdults(bookingDTO.getNumberOfAdults());

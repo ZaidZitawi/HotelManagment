@@ -41,10 +41,18 @@ public class GuestService {
         }
     }
 
-    public GuestDTO getGuestById(int id) {
-        Guest guest = guestRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Guest not found with id: " + id));
-        return convertToDTO(guest);
+    public Optional<GuestDTO> getGuestById(int id) {
+        // Try to retrieve the guest from the database
+        Optional<Guest> guest = guestRepository.findById(id);
+
+        // If the guest exists, map it to a GuestDTO and return it
+        if (guest.isPresent()) {
+            GuestDTO guestDTO = convertToDTO(guest.get());
+            return Optional.of(guestDTO);
+        }
+
+        // If the guest doesn't exist, return an empty Optional
+        return Optional.empty();
     }
 
     public GuestDTO updateGuest(GuestDTO guestDTO) {

@@ -18,7 +18,7 @@ public class RoomService {
 
     // Convert Entity to DTO
     private RoomDTO convertToDTO(Room room) {
-        return new RoomDTO(room.getRoomId(),  room.getRoomNumber(), room.getRoomType(), room.getFloorNumber(), room.getStatus(), room.getPrice());
+        return new RoomDTO(room.getRoomId(), room.getRoomNumber(), room.getRoomType(), room.getFloorNumber(), room.getStatus(), room.getPrice());
     }
 
     // Convert DTO to Entity

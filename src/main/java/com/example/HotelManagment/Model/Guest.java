@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 import java.util.List;
 
+
 @Entity
 @Table(name = "guests")
 public class Guest {
@@ -17,17 +18,15 @@ public class Guest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int guestId;
-
     private String firstName;
     private String lastName;
     private String emailAddress;
     private String phoneNumber;
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER) // Use EAGER or LAZY depending on your use case
-    private List<String> roles; // List of roles as strings
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles;
 
-    // Constructors, getters, and setters
     public Guest() {}
 
     public Guest(String firstName, String lastName, String emailAddress, String phoneNumber, String password) {
@@ -38,7 +37,6 @@ public class Guest {
         this.password = password;
     }
 
-    // Getters and setters
     public int getGuestId() {
         return guestId;
     }
@@ -95,3 +93,4 @@ public class Guest {
         this.roles = roles;
     }
 }
+

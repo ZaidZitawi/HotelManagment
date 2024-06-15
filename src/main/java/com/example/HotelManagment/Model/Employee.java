@@ -12,7 +12,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int  employeeId;
+    private int employeeId;
 
     private String firstName;
     private String lastName;
@@ -20,11 +20,9 @@ public class Employee {
     private String email;
     private String department;
 
-    // Default constructor
     public Employee() {
     }
 
-    // Parameterized constructor
     public Employee(String firstName, String lastName, String role, String email, String department) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,7 +31,6 @@ public class Employee {
         this.department = department;
     }
 
-    // Getters and Setters
     public int getEmployeeId() {
         return employeeId;
     }

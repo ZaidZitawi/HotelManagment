@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/guests")
+@RequestMapping("/guests")
 public class GuestController {
 
     @Autowired
@@ -31,8 +33,12 @@ public class GuestController {
     // GET endpoint for viewing guest profile
     @GetMapping("/{id}")
     public ResponseEntity<?> getGuestProfile(@PathVariable int id) {
-        GuestDTO guestProfile = guestService.getGuestById(id);
-        return ResponseEntity.ok(guestProfile);
+        Optional<GuestDTO> guestProfile = guestService.getGuestById(id);
+        if (guestProfile.isPresent()) {
+            return ResponseEntity.ok(guestProfile.get());
+        } else {
+            return ResponseEntity.ok("No guest found with ID " + id);
+        }
     }
 
     // PUT endpoint for updating guest profile

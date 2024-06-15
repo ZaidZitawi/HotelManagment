@@ -5,7 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.math.BigDecimal;
+
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "rooms")
@@ -21,11 +22,9 @@ public class Room {
     private String status;
     private double price;
 
-    // Default constructor
     public Room() {
     }
 
-    // Parameterized constructor
     public Room(String roomNumber, String roomType, int floorNumber, String status, double price) {
         this.roomNumber = roomNumber;
         this.roomType = roomType;
@@ -34,7 +33,6 @@ public class Room {
         this.price = price;
     }
 
-    // Getters and Setters
     public int getRoomId() {
         return roomId;
     }

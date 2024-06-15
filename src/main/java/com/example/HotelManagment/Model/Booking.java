@@ -3,7 +3,6 @@ package com.example.HotelManagment.Model;
 import jakarta.persistence.*;
 
 import java.util.Date;
-
 @Entity
 @Table(name = "booking")
 public class Booking {
@@ -11,38 +10,25 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingId;
 
-    @Column(nullable = false)
-    private int guestId;
-    @Column(nullable = false)
-    private String guestName;
+    @ManyToOne
+    @JoinColumn(name = "guest_id", nullable = false)
+    private Guest guest;
 
-    @Column(nullable = false)
-    private int roomId;
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date checkInDate;
 
-    @Column(nullable = false)
     @Temporal(TemporalType.DATE)
     private Date checkOutDate;
 
-    @Column(nullable = false)
     private int numberOfAdults;
-
-    @Column(nullable = false)
     private int numberOfChildren;
-
-    @Column(nullable = false)
     private Double totalPrice;
-
-    @Column(nullable = false, length = 50)
     private String paymentStatus;
 
-    // Constructors
-    public Booking() {}
-
-    // Getters and setters
     public int getBookingId() {
         return bookingId;
     }
@@ -51,20 +37,20 @@ public class Booking {
         this.bookingId = bookingId;
     }
 
-    public int getGuestId() {
-        return guestId;
+    public Guest getGuest() {
+        return guest;
     }
 
-    public void setGuestId(int guestId) {
-        this.guestId = guestId;
+    public void setGuest(Guest guest) {
+        this.guest = guest;
     }
 
-    public int getRoomId() {
-        return roomId;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomId(int roomId) {
-        this.roomId = roomId;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
     public Date getCheckInDate() {
@@ -113,12 +99,5 @@ public class Booking {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
-    }
-    public String getGuestName() {
-        return guestName;
-    }
-
-    public void setGuestName(String guestName) {
-        this.guestName = guestName;
     }
 }

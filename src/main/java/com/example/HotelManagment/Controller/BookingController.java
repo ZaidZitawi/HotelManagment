@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/reservations")
+@RequestMapping("/reservations")
 public class BookingController {
 
     @Autowired
@@ -25,10 +25,13 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookingDTO> getBookingById(@PathVariable int id) {
+    public ResponseEntity<?> getBookingById(@PathVariable int id) {
         Optional<BookingDTO> booking = bookingService.findBookingById(id);
-        return booking.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (booking.isPresent()) {
+            return ResponseEntity.ok(booking.get());
+        } else {
+            return ResponseEntity.ok("No booking found with ID " + id);
+        }
     }
 
     @PostMapping
