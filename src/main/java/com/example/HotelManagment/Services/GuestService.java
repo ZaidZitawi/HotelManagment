@@ -1,58 +1,56 @@
 package com.example.HotelManagment.Services;
 
-
 import com.example.HotelManagment.DTO.GuestDTO;
 import com.example.HotelManagment.Model.Guest;
 import com.example.HotelManagment.Repo.GuestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.logging.Logger;
+
 @Service
-public class GuestService {
+public class GuestService implements UserDetailsService {
 
-    @Autowired
-    private GuestRepository guestRepository;
+    Logger logger = Logger.getLogger(GuestService.class.getName());
 
-    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private  GuestRepository guestRepository;
+    private  PasswordEncoder passwordEncoder;
+
 
     public GuestDTO registerGuest(GuestDTO guestDTO) {
         Guest guest = new Guest();
         updateGuestEntityFromDTO(guest, guestDTO);
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         guest.setPassword(passwordEncoder.encode(guestDTO.getPassword()));
         guest = guestRepository.save(guest);
         return convertToDTO(guest);
     }
 
-    public String login(String email, String password) {
-        Optional<Guest> guestOptional = guestRepository.findByEmailAddress(email);
-        if (guestOptional.isPresent()) {
-            Guest guest = guestOptional.get();
-            if (passwordEncoder.matches(password, guest.getPassword())) {
-                return "Logged in successfully";
-            } else {
-                throw new IllegalArgumentException("Invalid password");
-            }
-        } else {
-            throw new IllegalArgumentException("Guest not found with email: " + email);
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        logger.info("Attempting to load user by email: '" + email + "'");
+        if (email == null || email.isEmpty()) {
+            logger.warning("Email is null or empty");
+            throw new UsernameNotFoundException("Email is null or empty");
         }
+        Guest guest = guestRepository.findByEmailAddress(email)
+                .orElseThrow(() -> {
+                    logger.warning("Guest not found with email: '" + email + "'");
+                    return new UsernameNotFoundException("Guest not found with email: '" + email + "'");
+                });
+        logger.info("Guest found: " + guest.getEmailAddress());
+        return new org.springframework.security.core.userdetails.User(guest.getEmailAddress(), guest.getPassword(), Collections.singletonList(new SimpleGrantedAuthority("USER")));
     }
 
     public Optional<GuestDTO> getGuestById(int id) {
-        // Try to retrieve the guest from the database
         Optional<Guest> guest = guestRepository.findById(id);
-
-        // If the guest exists, map it to a GuestDTO and return it
-        if (guest.isPresent()) {
-            GuestDTO guestDTO = convertToDTO(guest.get());
-            return Optional.of(guestDTO);
-        }
-
-        // If the guest doesn't exist, return an empty Optional
-        return Optional.empty();
+        return guest.map(this::convertToDTO);
     }
 
     public GuestDTO updateGuest(GuestDTO guestDTO) {
@@ -83,7 +81,6 @@ public class GuestService {
     }
 
     private GuestDTO convertToDTO(Guest guest) {
-        GuestDTO guestDTO = new GuestDTO(guest.getGuestId(), guest.getFirstName(), guest.getLastName(), guest.getEmailAddress(), guest.getPhoneNumber(), guest.getPassword());
-        return guestDTO;
+        return new GuestDTO(guest.getGuestId(), guest.getFirstName(), guest.getLastName(), guest.getEmailAddress(), guest.getPhoneNumber(), guest.getPassword());
     }
 }

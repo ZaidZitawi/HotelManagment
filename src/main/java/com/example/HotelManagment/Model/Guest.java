@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "guests")
-public class Guest {
+public class Guest{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,8 +24,7 @@ public class Guest {
     private String phoneNumber;
     private String password;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<String> roles;
+    private String role;
 
     public Guest() {}
 
@@ -35,6 +34,7 @@ public class Guest {
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.password = password;
+        role="USER";
     }
 
     public int getGuestId() {
@@ -85,12 +85,12 @@ public class Guest {
         this.password = password;
     }
 
-    public List<String> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 }
 
