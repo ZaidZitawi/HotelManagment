@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    image: zaidzitawi/hotelmanagment:tag
+    container_name: app-container
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/hm
+      SPRING_DATASOURCE_USERNAME: zaidzitawi
+      SPRING_DATASOURCE_PASSWORD: 0568718460zaid
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8
+    container_name: db-container
+    environment:
+      MYSQL_DATABASE: hm
+      MYSQL_USER: zaidzitawi
+      MYSQL_PASSWORD: 0568718460zaid
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
