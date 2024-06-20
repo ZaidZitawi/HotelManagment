@@ -164,3 +164,12 @@ To set up and run the application, follow these steps:
 
 ## Documentation for Each Resource
 API documentation will be available on Swagger once the application is running. Visit `http://localhost:8080/swagger-ui.html` to explore the API endpoints and test them directly from the interface.
+
+### ER Digrame:
+
+![web_ER drawio](https://github.com/ZaidZitawi/HotelManagment/assets/132776309/9e22c437-aaea-4b54-8c91-60f0e2423309)
+
+### link to the Dockerimage:
+https://hub.docker.com/repository/docker/zaidzitawi/hotelmanagment/general
+
+
