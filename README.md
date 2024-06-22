@@ -4,7 +4,7 @@ The Hotel Management System is designed to streamline and automate the various p
 
 ## Features
 
-- **Guest Management**: Register, login, update profiles, and change passwords for guests.
+- **Guest Management**: Register, log in, update profiles, and change passwords for guests.
 - **Employee Management**: Add, update, retrieve, and delete employee records.
 - **Room Management**: Add, update, retrieve, delete rooms, and check availability.
 - **Billing Management**: Generate invoices and retrieve billing details.
@@ -238,18 +238,18 @@ API documentation will be available on Swagger once the application is running. 
 [Hotel Management System.postman_collection.json](https://github.com/user-attachments/files/15930026/Hotel.Managment.System.postman_collection.json)
 
 
-## What I Learned from the Project
+## What We Learned from the Project
 
 Throughout the development of the Hotel Management System, I gained valuable experience in several areas:
 
-- **RESTful API Development**: Implementing various API endpoints and ensuring they follow REST principles.
-- **Spring Boot**: Utilizing Spring Boot to quickly set up and develop the backend application.
+- **RESTful API Development**: Implement various API endpoints and ensure they follow REST principles.
+- **Spring Boot**: Utilizing Spring Boot to set up and develop the backend application quickly.
 - **Database Management**: Designing and interacting with a relational database, understanding relationships, and writing efficient queries.
 - **Docker**: Creating Docker images and using Docker Compose to manage multi-container applications.
 - **Security**: Implementing JWT-based authentication and authorization to secure the APIs.
 - **Project Management**: Collaborating with team members, managing tasks, and ensuring timely completion of project milestones.
 - **Error Handling**: Learning to implement proper exception handling to ensure robustness and reliability.
-- **API Documentation**: Using OAS 3.1.0 to document APIs, which helps in maintaining clear and accessible API documentation.
+- **API Documentation**: Using OAS 3.1.0 to document APIs helps maintain clear and accessible API documentation.
 - **Continuous Integration and Deployment (CI/CD)**: Understanding the importance of CI/CD pipelines to automate the building, testing, and deployment processes.
 - **Version Control**: Using Git and GitHub effectively for version control and collaboration, ensuring a smooth workflow and history tracking.
 - **Best Practices**: Applying software engineering best practices, including code readability, maintainability, and scalability.
