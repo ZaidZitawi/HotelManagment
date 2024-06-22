@@ -157,21 +157,101 @@ To set up and run the application, follow these steps:
 3. **Application Configuration**
    - Update the `application.properties` file with your database connection details.
 
-4. **Run the Application**
-   - Use your IDE or command line to build and run the application.
+4. **Build and Package the Application**
+   - Use Maven to clean and build the project which will generate the JAR file:
+     ```sh
+     mvn clean install
+     ```
+
+5. **Docker Setup**
+   - Ensure Docker is installed and running on your system.
+
+6. **Build the Docker Image**
+   - Create a Docker image using the Dockerfile provided:
+     ```sh
+     docker build -t zaidzitawi/hotelmanagment:tag .
+     ```
+
+7. **Push the Docker Image to DockerHub**
+   - Log in to DockerHub:
+     ```sh
+     docker login
+     ```
+   - Push the Docker image to your DockerHub repository:
+     ```sh
+     docker push zaidzitawi/hotelmanagment:tag
+     ```
+
+8. **Run the Application using Docker Compose**
+   - Create a `docker-compose.yaml` file with the following content:
+     ```yaml
+     version: '3.8'
+
+     services:
+       app:
+         image: zaidzitawi/hotelmanagment:tag
+         container_name: app-container
+         ports:
+           - "8080:8080"
+         environment:
+           SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/hm
+           SPRING_DATASOURCE_USERNAME: zaidzitawi
+           SPRING_DATASOURCE_PASSWORD: 0568718460zaid
+           SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+         depends_on:
+           - db
+
+       db:
+         image: mysql:8
+         container_name: db-container
+         environment:
+           MYSQL_DATABASE: hm
+           MYSQL_USER: zaidzitawi
+           MYSQL_PASSWORD: 0568718460zaid
+         ports:
+           - "3307:3306"
+     ```
+
+9. **Start the Application**
+   - Run the following command to start the application using Docker Compose:
+     ```sh
+     docker-compose up
+     ```
+
+10. **Access the Application**
+    - Open your web browser and navigate to `http://localhost:8080` to access the application.
 
 ## Documentation for Each Resource
-API documentation will be available on Swagger once the application is running. Visit `[http://localhost:8080/swagger-ui.html](https://editor-next.swagger.io/)` to explore the API endpoints and test them directly from the interface.
 
-### ER Digrame:
+API documentation will be available on Swagger once the application is running. Visit `[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)` to explore the API endpoints and test them directly from the interface.
+
+### ER Diagram
 
 ![web_ER drawio](https://github.com/ZaidZitawi/HotelManagment/assets/132776309/9e22c437-aaea-4b54-8c91-60f0e2423309)
 
-### link to the Dockerimage:
-https://hub.docker.com/repository/docker/zaidzitawi/hotelmanagment/general
+### Link to the Docker Image
 
-## Postman Collection of API's
+[Hotel Management System Docker Image](https://hub.docker.com/repository/docker/zaidzitawi/hotelmanagment/general)
 
-[Hotel Managment System.postman_collection.json](https://github.com/user-attachments/files/15930026/Hotel.Managment.System.postman_collection.json)
+## Postman Collection of APIs
+
+[Hotel Management System.postman_collection.json](https://github.com/user-attachments/files/15930026/Hotel.Managment.System.postman_collection.json)
 
 
+## What I Learned from the Project
+
+Throughout the development of the Hotel Management System, I gained valuable experience in several areas:
+
+- **RESTful API Development**: Implementing various API endpoints and ensuring they follow REST principles.
+- **Spring Boot**: Utilizing Spring Boot to quickly set up and develop the backend application.
+- **Database Management**: Designing and interacting with a relational database, understanding relationships, and writing efficient queries.
+- **Docker**: Creating Docker images and using Docker Compose to manage multi-container applications.
+- **Security**: Implementing JWT-based authentication and authorization to secure the APIs.
+- **Project Management**: Collaborating with team members, managing tasks, and ensuring timely completion of project milestones.
+- **Error Handling**: Learning to implement proper exception handling to ensure robustness and reliability.
+- **API Documentation**: Using OAS 3.1.0 to document APIs, which helps in maintaining clear and accessible API documentation.
+- **Continuous Integration and Deployment (CI/CD)**: Understanding the importance of CI/CD pipelines to automate the building, testing, and deployment processes.
+- **Version Control**: Using Git and GitHub effectively for version control and collaboration, ensuring a smooth workflow and history tracking.
+- **Best Practices**: Applying software engineering best practices, including code readability, maintainability, and scalability.
+- **User Experience Considerations**: Understanding the importance of user roles and permissions in creating a secure and user-friendly application.
+- **Problem-Solving**: Enhancing my problem-solving skills by debugging and resolving issues encountered during the development process.
