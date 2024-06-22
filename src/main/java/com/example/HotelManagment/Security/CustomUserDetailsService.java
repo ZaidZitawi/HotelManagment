@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.logging.Logger;
-
+import com.example.HotelManagment.Exceptions.UserNotFoundException;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UserNotFoundException {
         logger.info("Attempting to load user by email: '" + email + "'");
         if (email == null || email.isEmpty()) {
             logger.warning("Email is null or empty");

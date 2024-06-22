@@ -4,7 +4,6 @@ package com.example.HotelManagment.Security;
 import com.example.HotelManagment.Util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,7 +47,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
         response.setStatus(HttpServletResponse.SC_OK);
         response.setContentType("application/json");
-        response.getWriter().write("{\"token\": \"" + token + "\"}");
+        response.getWriter().write("Authentication Successful\n"+"{\"token\": \"" + token + "\"}");
     }
 
 

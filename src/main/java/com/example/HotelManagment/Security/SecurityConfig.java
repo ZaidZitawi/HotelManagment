@@ -35,7 +35,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authz -> {
-                    authz.requestMatchers("/login", "/guests/login").permitAll();
+                    authz.requestMatchers("/login", "/guests/login", "guests/register").permitAll();
                     authz.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session
@@ -53,6 +53,8 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    //instead of declaring a whole class for password encoding we can use
+    // this method centralize the configuration and ensure consistency across your application.
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

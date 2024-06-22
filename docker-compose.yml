@@ -21,6 +21,5 @@ services:
       MYSQL_DATABASE: hm
       MYSQL_USER: zaidzitawi
       MYSQL_PASSWORD: 0568718460zaid
-      MYSQL_ROOT_PASSWORD: root_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
